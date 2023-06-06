@@ -8,6 +8,8 @@ from models import users, User
 
 # Login
 from forms import LoginForm
+# Signup
+from forms import RegistrationForm
 
 app = Flask(__name__, static_url_path='')
 login_manager = LoginManager()
@@ -29,23 +31,43 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('index')) # le manda a la pagina de inicio (index.html)
     else:
         error = None
         form = LoginForm(None if request.method != 'POST' else request.form)
         if request.method == "POST" and form.validate():
-            if form.email.data != 'admin@um.es' or form.password.data != 'admin':
-                error = 'Invalid Credentials. Please try again.'
-            else:
-                user = User(1, 'admin', form.email.data.encode('utf-8'),
-                            form.password.data.encode('utf-8'))
+
+            email = form.email.data
+            password = form.password.data
+            credenciales = { "email" : email, "password": password }
+
+           
+            # Llamar al backend para verificar las credenciales
+            # Kholoud: el backend ya se encarga de incrementar numero de visitas
+            # esto solo pasa si las credenciales son correctas           
+            response = requests.post('http://localhost:8080/rest/checkLogin', json=credenciales)
+            if response.status_code == 200: 
+                user = User(int(response.json()['id']['string']), response.json()['name']['string'], form.email.data.encode('utf-8'), form.password.data.encode('utf-8'),response.json()['token']['string'], int(response.json()['visits']['string']), int(response.json()['videos']['string']))
                 users.append(user)
                 login_user(user, remember=form.remember_me.data)
-                return redirect(url_for('index'))
+                return redirect(url_for('profile', username=user.id))
+            else:
+                error = 'Email o contraseña incorrectos'    
+
+            #if form.email.data != 'admin@um.es' or form.password.data != 'admin':
+            #    error = 'Invalid Credentials. Please try again.'
+            #else:
+            #    user = User(1, 'admin', form.email.data.encode('utf-8'),
+            #                form.password.data.encode('utf-8'))
+            #    users.append(user)
+            #    login_user(user, remember=form.remember_me.data)
+            #    return redirect(url_for('index'))
 
         return render_template('login.html', form=form,  error=error)
 
-@app.route('/profile')
+
+# en esta funcion debe mostrar el perfil del usuario y sus datos almacenados 
+@app.route('/u/<username>')
 @login_required
 def profile():
     return render_template('profile.html')
@@ -62,6 +84,38 @@ def load_user(user_id):
         if user.id == int(user_id):
             return user
     return None
+
+# nueva funcion para permitir registro de usuario -- KHOLOUD
+@app.route('/signup', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index')) #si ya hay user 
+    else:
+        error = None
+        form = RegistrationForm(None if request.method != 'POST' else request.form)
+        if request.method == "POST" and form.validate():
+            email = form.email.data
+            name = form.name.data
+            password = form.password.data
+             # Aquí almacenar los datos del usuario en la base de datos
+            # llamar a backend para peticion de almacenar
+            credenciales_registro = {"email" : email,"name" : name,  "password" : password}
+            response = requests.post('http://localhost:8080/rest/checkSignup', json=credenciales_registro)
+            if response.status_code == 200:
+                # usuario ficticio
+                user = User(email, name, password)
+                users.append(user)
+
+                login_user(user)  # Opcional: Inicia sesión automáticamente después del registro
+
+                return redirect(url_for('index'))
+        else:
+            error = 'Validación de registro incorrecta'
+    return render_template('signup.html', form=form, error=error)
+
+# funcion para mostrar el numero de accesos
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
