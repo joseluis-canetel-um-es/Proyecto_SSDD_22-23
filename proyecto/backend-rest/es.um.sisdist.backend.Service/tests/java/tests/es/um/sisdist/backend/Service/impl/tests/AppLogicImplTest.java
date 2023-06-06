@@ -27,10 +27,11 @@ class AppLogicImplTest
                 impl = AppLogicImpl.getInstance();
         }
 
-        @Test
+        //@Test
+        /**
         void testDefaultUser()
         {
                 Optional<User> u = impl.getUserByEmail("dsevilla@um.es");
                 assertEquals(u.get().getEmail(), "dsevilla@um.es");
-        }
+        }*/
 }

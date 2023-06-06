@@ -24,4 +24,19 @@ public class DAOFactoryImpl implements IDAOFactory
     {
         return new MongoUserDAO();
     }
+    // eliminar usuario
+
+    // falta implementar 
+	@Override
+	public boolean removeSQLUserDAO() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeMongoUserDAO() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+   
 }
