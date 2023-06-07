@@ -87,9 +87,9 @@ public class AppLogicImpl
 
     /**modificado por kholoud*/
     // regitra un usuario
-    public boolean signup(String email, String name, String password) {
+    public void signup(String email, String name, String password) {
     	dao.insertUser(email, name, password);
-    	return false;
+    	//return false;
     	
     }
     // El frontend, a través del formulario de login,

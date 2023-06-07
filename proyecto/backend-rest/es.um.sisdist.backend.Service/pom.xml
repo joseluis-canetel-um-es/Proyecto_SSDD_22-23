@@ -99,11 +99,12 @@
 	      <groupId>jakarta.xml.bind</groupId>
 	      <artifactId>jakarta.xml.bind-api</artifactId>
 	    </dependency>
-	     <dependency>
-	      <groupId>org.eclipse.persistence</groupId>
-	      <artifactId>org.eclipse.persistence.moxy</artifactId>
-	      <version>3.0.2</version>
-	    </dependency>
+	    <dependency>
+		    <groupId>javax</groupId>
+		    <artifactId>javaee-api</artifactId>
+		    <version>7.0</version>
+		    <scope>provided</scope>
+		</dependency>
 
 		<!-- TEST -->
 		<dependency>
@@ -121,6 +122,11 @@
 		<dependency>
 			<groupId>es.um.sisdist.backend.grpc</groupId>
 			<artifactId>GrpcService</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>es.um.sisdist.RestTest</groupId>
+			<artifactId>es.um.sisdist.RestTest</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

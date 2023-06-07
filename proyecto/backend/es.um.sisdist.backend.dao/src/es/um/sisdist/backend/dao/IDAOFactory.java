@@ -3,7 +3,9 @@
  */
 package es.um.sisdist.backend.dao;
 
+import es.um.sisdist.backend.dao.database.IDatabaseDAO;
 import es.um.sisdist.backend.dao.user.IUserDAO;
+
 
 /**
  * @author dsevilla
@@ -19,4 +21,14 @@ public interface IDAOFactory
     
     public boolean removeSQLUserDAO();
     public boolean removeMongoUserDAO();
+    
+    // metodos de la base de datos 
+    // creacion
+    public IDatabaseDAO createSQLDatabaseDAO();
+    public IDatabaseDAO createMongoDatabaseDAO();
+    // eliminacion
+    public void deleteSQLDatabaseDAO();
+    public void deleteMongoDatabaseDAO();
+
+
 }
