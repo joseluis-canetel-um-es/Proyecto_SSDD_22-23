@@ -23,7 +23,6 @@ import es.um.sisdist.backend.dao.utils.Lazy;
 
 public class MongoDBDatabaseDAO implements IDatabaseDAO{
 	
-    private Supplier<MongoCollection<DataBase>> collection;
 
 	public MongoDBDatabaseDAO() {
 	    CodecProvider pojoCodecProvider = PojoCodecProvider.builder()

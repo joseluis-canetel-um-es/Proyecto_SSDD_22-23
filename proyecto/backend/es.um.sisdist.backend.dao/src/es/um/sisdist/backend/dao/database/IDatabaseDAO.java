@@ -8,7 +8,7 @@ pares clave/valor a la base de datos, así como obtener listados de
 valores y lanzar procesamientos map-reduce *
  */
 public interface IDatabaseDAO {
-	 public void createDatabase(DataBase database);
+	 public void insertDatabase(DataBase database);
 	 public void deleteDatabase(String databaseId);
 	 public DataBase getDatabase(String databaseId);
 	 public void addClaveValor();

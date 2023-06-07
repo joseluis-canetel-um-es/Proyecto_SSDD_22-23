@@ -1,8 +1,11 @@
 package es.um.sisdist.backend.dao.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.function.Supplier;
+
+import com.mysql.cj.xdevapi.Result;
 
 import es.um.sisdist.backend.dao.models.DataBase;
 import es.um.sisdist.backend.dao.utils.Lazy;
@@ -28,18 +31,21 @@ public class SQLDatabaseDAO implements IDatabaseDAO{
 	    });
 	}
 
-	 @Override
-	 public void createDatabase(DataBase database) {
-	 // Utiliza la instancia de MongoDB y el objeto Database para crear la base de datos
+	// crea la base de datos
+	// falta modificar
+	 private Optional<DataBase> createDatabase(Result result) {
+			    try {
+			        return Optional.of(new DataBase(result.getString(1)));
+			    } catch (SQLException e) {
+			        return Optional.empty();
+			    }
 	 }
+	 
 	 @Override
 	 public void deleteDatabase(String databaseId) {
-	 // Utiliza la instancia de MongoDB y el ID de la base de datos para eliminarla
 	 }
 	 @Override
 	 public DataBase getDatabase(String databaseId) {
-	 // Utiliza la instancia de MongoDB y el ID de la base de datos para obtenerla
-	 // Devuelve el objeto Database con la información de la base de datos
 	 return null;
 	 }
 	@Override
@@ -58,6 +64,12 @@ public class SQLDatabaseDAO implements IDatabaseDAO{
 	public void getValues() {
 		// Obtiene lista de todos los pares Clave,Valor de la base de datos 
 
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertDatabase(DataBase database) {
 		// TODO Auto-generated method stub
 		
 	}
