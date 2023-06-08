@@ -86,7 +86,6 @@ public class MongoUserDAO implements IUserDAO
             collection.get().insertOne(user);
             return true;
         } catch (Exception e) {
-            // Manejo de excepciones: capturar y manejar la excepción según sea necesario
             return false;
         }
     }
@@ -99,7 +98,6 @@ public class MongoUserDAO implements IUserDAO
             collection.get().deleteOne(eq("_id", id));
             return true;
         } catch (Exception e) {
-            // Manejo de excepciones: capturar y manejar la excepción según sea necesario
             return false;
         }
     }
@@ -120,7 +118,6 @@ public class MongoUserDAO implements IUserDAO
             com.mongodb.client.result.UpdateResult result = collection.get().updateOne(filter, update);
             return result.getModifiedCount() > 0;
         } catch (Exception e) {
-            // Manejo de excepciones: capturar y manejar la excepción según sea necesario
             return false;
         }
     }
@@ -136,7 +133,6 @@ public class MongoUserDAO implements IUserDAO
 	        collection.get().updateOne(filter, update);
 	        //return result.getModifiedCount() > 0;
 	    } catch (Exception e) {
-	        // Manejo de excepciones: capturar y manejar la excepción según sea necesario
 	        //return false;
 	    }
 	}

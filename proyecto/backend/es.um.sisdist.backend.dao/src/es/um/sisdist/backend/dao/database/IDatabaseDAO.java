@@ -1,5 +1,7 @@
 package es.um.sisdist.backend.dao.database;
 
+import java.util.HashMap;
+
 import es.um.sisdist.backend.dao.models.DataBase;
 
 /**
@@ -8,11 +10,11 @@ pares clave/valor a la base de datos, así como obtener listados de
 valores y lanzar procesamientos map-reduce *
  */
 public interface IDatabaseDAO {
-	 public void insertDatabase(DataBase database);
-	 public void deleteDatabase(String databaseId);
+	 public boolean insertDatabase(String db, String idUser);
+	 public boolean deleteDatabase(String databaseId);
 	 public DataBase getDatabase(String databaseId);
-	 public void addClaveValor();
-	 public void deleteClaveValor();
-	 public void getValues();
+	 public void addClaveValor(String db, HashMap<String, String> pares);
+	 public void deleteClaveValor(String db, String clave);
+	 public void getValues(); // listar valores de la bd
 
 }

@@ -9,6 +9,8 @@ import java.util.HashMap;
 public class DataBase {
     private String id;
 	private String name;
+	private String idUser; // relacionar el id de usuario con la db
+	//private ArrayList<Value> table; // valores que almacena la db
 	
 	/**
 	 * Las claves y los valores pueden ser de tres tipos:
@@ -55,6 +57,14 @@ public class DataBase {
 	// eliminar un par clave valor de la base de datos
 	public void deletePar(String key) {
 		this.pares.remove(key);
+	}
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
 	}
 	
 	
