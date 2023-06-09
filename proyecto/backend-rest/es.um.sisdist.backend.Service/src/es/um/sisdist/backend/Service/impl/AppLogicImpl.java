@@ -10,6 +10,8 @@ import es.um.sisdist.backend.grpc.GrpcServiceGrpc;
 import es.um.sisdist.backend.grpc.PingRequest;
 import es.um.sisdist.backend.dao.DAOFactoryImpl;
 import es.um.sisdist.backend.dao.IDAOFactory;
+import es.um.sisdist.backend.dao.database.IDatabaseDAO;
+import es.um.sisdist.backend.dao.models.DataBase;
 import es.um.sisdist.backend.dao.models.User;
 import es.um.sisdist.backend.dao.models.utils.UserUtils;
 import es.um.sisdist.backend.dao.user.IUserDAO;
@@ -24,6 +26,7 @@ public class AppLogicImpl
 {
     IDAOFactory daoFactory;
     IUserDAO dao; // usuario DAO
+    IDatabaseDAO daodb;
 
     private static final Logger logger = Logger.getLogger(AppLogicImpl.class.getName());
 
@@ -92,6 +95,23 @@ public class AppLogicImpl
     	//return false;
     	
     }
+    
+    // crea una base de datos relacionada al id de un usuario
+    public boolean createDatabase(String name, String idUser) {
+    	return daodb.insertDatabase(name, idUser);
+    	//return false;
+    }
+    
+    // devuelve la database dado su id
+    public Optional<DataBase> getDatabase(String db) {
+    	return Optional.of(daodb.getDatabase(db));
+    	//return null;
+    }
+    
+    public void insertKeyValue(String dbname, String key, String value) {
+    	daodb.addClaveValor(dbname, key, value);
+    }
+    
     // El frontend, a través del formulario de login,
     // envía el usuario y pass, que se convierte a un DTO. De ahí
     // obtenemos la consulta a la base de datos, que nos retornará,

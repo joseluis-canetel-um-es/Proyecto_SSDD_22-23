@@ -18,25 +18,24 @@ import jakarta.ws.rs.core.Response.Status;
 public class CheckSignupEndpoint {
 	private AppLogicImpl impl = AppLogicImpl.getInstance();
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response registerUser(UserDTO userDTO) {
-        // Verificar si el usuario ya existe en la base de datos
-        if (impl.getUserByEmail(userDTO.getEmail()).isPresent()) {
-        	// Usuario ya registrado, devolver estado de conflicto (409)
-            return Response.status(Status.CONFLICT).build(); 
-        }
-		return null;
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response registerUser(UserDTO userDTO) {
+		// Verificar si el usuario ya existe en la base de datos
+		if (impl.getUserByEmail(userDTO.getEmail()).isPresent()) {
+			// Usuario ya registrado, devolver estado de conflicto (409)
+			return Response.status(Status.CONFLICT).build();
+		}
 
-        // Crear un nuevo objeto de usuario
-       // User user = new User(userDTO.getEmail(), userDTO.getName(), userDTO.getPassword(), 0);
+		// Crear un nuevo objeto de usuario
+		// User user = new User(userDTO.getEmail(), userDTO.getName(),
+		// userDTO.getPassword(), 0);
+		// Guardar el usuario en la base de datos
+		impl.signup(userDTO.getEmail(), userDTO.getName(), userDTO.getPassword());
 
-        // Guardar el usuario en la base de datos 
-
-
-        // Devolver una respuesta exitosa
-       // return Response.ok(UserDTOUtils.toDTO(user)).build();
-    }
+		// Devolver una respuesta ok
+		return Response.ok().build();
+	}
 
 }

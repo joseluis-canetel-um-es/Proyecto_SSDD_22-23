@@ -44,7 +44,6 @@ public class SQLDatabaseDAO implements IDatabaseDAO {
 			int rowsAffected = stm.executeUpdate();
 			return rowsAffected > 0;
 		} catch (SQLException e) {
-			// Manejo de excepciones: capturar y manejar la excepción según sea necesario
 		}
 		return false;
 	}
@@ -52,71 +51,81 @@ public class SQLDatabaseDAO implements IDatabaseDAO {
 	@Override
 	public DataBase getDatabase(String databaseId) {
 		try {
-	        PreparedStatement statement = conn.get().prepareStatement("SELECT * FROM databases WHERE id = ?");
-	        statement.setString(1, databaseId);
-	        
-	        ResultSet result = statement.executeQuery();
-	        
-	        if (result.next()) {
-	            // Crear una instancia de la clase DataBase y asignar los valores correspondientes
-	            DataBase database = new DataBase(result.getString("name"));
-	            database.setId(result.getString("id"));
-	            database.setIdUser(result.getString("idUser"));
-	            
-	            // Obtener el mapa de pares clave-valor de la base de datos
-	            String paresString = result.getString("pares");
-	            
-	            if (paresString != null && !paresString.isEmpty()) {
-	                // Convertir la cadena de pares a un mapa
-	                HashMap<String, String> pares = new HashMap<>();
-	                String[] paresArray = paresString.split(",");
-	                
-	                for (String par : paresArray) {
-	                    String[] keyValue = par.split(":");
-	                    if (keyValue.length == 2) {
-	                        pares.put(keyValue[0], keyValue[1]);
-	                    }
-	                }
-	                
-	                database.setPares(pares);
-	            }
-	            
-	            return database;
-	        }
-	    } catch (SQLException e) {
-	    }
-	    
-	    // Si no se encontró ninguna base de datos, retornar null
-	    return null;
+			PreparedStatement statement = conn.get().prepareStatement("SELECT * FROM databases WHERE id = ?");
+			statement.setString(1, databaseId);
+
+			ResultSet result = statement.executeQuery();
+
+			if (result.next()) {
+				// Crear una instancia de la clase DataBase y asignar los valores
+				// correspondientes
+				DataBase database = new DataBase(result.getString("name"));
+				database.setId(result.getString("id"));
+				database.setIdUser(result.getString("idUser"));
+
+				// Obtener el mapa de pares clave-valor de la base de datos
+				String paresString = result.getString("pares");
+
+				if (paresString != null && !paresString.isEmpty()) {
+					// Convertir la cadena de pares a un mapa
+					HashMap<String, String> pares = new HashMap<>();
+					String[] paresArray = paresString.split(",");
+
+					for (String par : paresArray) {
+						String[] keyValue = par.split(":");
+						if (keyValue.length == 2) {
+							pares.put(keyValue[0], keyValue[1]);
+						}
+					}
+
+					database.setPares(pares);
+				}
+
+				return database;
+			}
+		} catch (SQLException e) {
+		}
+
+		// Si no se encontró ninguna base de datos, retornar null
+		return null;
 	}
 
 	@Override
-	public void addClaveValor(String id, HashMap<String, String> pares) {
+	public void addClaveValor(String db, String clave, String valor) {
 		// Añade un par Clave,Valor a la base de datos
 		try {
-			// Convertir el mapa a una representación de cadena
-			StringBuilder sb = new StringBuilder();
+			// Obtener la instancia de la base de datos
+			DataBase database = getDatabase(db);
+			if (database != null) {
+				// Obtener el mapa de pares clave-valor de la base de datos
+				HashMap<String, String> paresDb = database.getPares();
+				paresDb.put(clave, valor);
+				// Eliminar la clave especificada del mapa de pares
 
-			for (Map.Entry<String, String> entry : pares.entrySet()) {
-				String key = entry.getKey();
-				String value = entry.getValue();
+				// Convertir el mapa a una representación de cadena
+				StringBuilder sb = new StringBuilder();
 
-				sb.append(key).append(":").append(value).append(",");
+				for (Map.Entry<String, String> entry : paresDb.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+
+					sb.append(key).append(":").append(value).append(",");
+				}
+
+				// Eliminar la última coma
+				if (sb.length() > 0) {
+					sb.deleteCharAt(sb.length() - 1);
+				}
+
+				// Preparar la declaración SQL
+				PreparedStatement statement = conn.get()
+						.prepareStatement("UPDATE databases SET pares = ? WHERE name = ?");
+				statement.setString(1, sb.toString());
+				statement.setString(2, db);
+
+				// Ejecutar la consulta de update
+				statement.executeUpdate();
 			}
-
-			// Eliminar la última coma
-			if (sb.length() > 0) {
-				sb.deleteCharAt(sb.length() - 1);
-			}
-
-			// Preparar la declaración SQL
-			PreparedStatement statement = conn.get().prepareStatement("UPDATE databases SET pares = ? WHERE id = ?");
-			statement.setString(1, sb.toString());
-			statement.setString(2, id);
-
-			// Ejecutar la consulta de update
-			statement.executeUpdate();
-
 		} catch (SQLException e) {
 		}
 
@@ -126,7 +135,7 @@ public class SQLDatabaseDAO implements IDatabaseDAO {
 	public void deleteClaveValor(String db, String clave) {
 		// Elimina un par Clave,Valor de la base de datos
 		try {
-			// Obtener la instancia de la base de datos 
+			// Obtener la instancia de la base de datos
 			DataBase database = getDatabase(db);
 
 			if (database != null) {
@@ -149,7 +158,6 @@ public class SQLDatabaseDAO implements IDatabaseDAO {
 				if (sb.length() > 0) {
 					sb.deleteCharAt(sb.length() - 1);
 				}
-
 
 				PreparedStatement statement = conn.get()
 						.prepareStatement("UPDATE databases SET pares = ? WHERE id = ?");

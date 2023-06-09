@@ -13,7 +13,7 @@ public interface IDatabaseDAO {
 	 public boolean insertDatabase(String db, String idUser);
 	 public boolean deleteDatabase(String databaseId);
 	 public DataBase getDatabase(String databaseId);
-	 public void addClaveValor(String db, HashMap<String, String> pares);
+	 public void addClaveValor(String db, String clave, String valor);
 	 public void deleteClaveValor(String db, String clave);
 	 public void getValues(); // listar valores de la bd
 
