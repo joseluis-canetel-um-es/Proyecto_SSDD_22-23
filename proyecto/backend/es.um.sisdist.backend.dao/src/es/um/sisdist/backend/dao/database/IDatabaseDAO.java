@@ -1,6 +1,7 @@
 package es.um.sisdist.backend.dao.database;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+
 
 import es.um.sisdist.backend.dao.models.DataBase;
 
@@ -16,5 +17,6 @@ public interface IDatabaseDAO {
 	 public void addClaveValor(String db, String clave, String valor);
 	 public void deleteClaveValor(String db, String clave);
 	 public void getValues(); // listar valores de la bd
+	 public ArrayList<DataBase> getDatabases(String userId);
 
 }

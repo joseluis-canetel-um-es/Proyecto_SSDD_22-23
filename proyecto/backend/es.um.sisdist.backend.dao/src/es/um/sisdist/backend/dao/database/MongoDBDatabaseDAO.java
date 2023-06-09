@@ -1,6 +1,8 @@
 package es.um.sisdist.backend.dao.database;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +12,7 @@ import static com.mongodb.client.model.Filters.eq;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static java.util.Arrays.*;
+import java.util.ArrayList;
 
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecProvider;
@@ -171,5 +174,24 @@ public class MongoDBDatabaseDAO implements IDatabaseDAO {
 			return false;
 		}
 	}
+
+	// obtener todas las db que esten relacionados con un usuario
+	@Override
+	public ArrayList<DataBase> getDatabases(String userId) {
+		try {
+	        MongoCollection<DataBase> mongoCollection = collection.get(); // Obtener la colección de la base de datos
+	        ArrayList<DataBase> result = new ArrayList<DataBase>();
+
+	        mongoCollection.find(eq("idUser", userId)).forEach(db -> {
+	            result.add(db);
+	        });
+
+	        return result;
+	    } catch (Exception e) {
+	    }
+
+	    return null;
+	}	
+	
 
 }

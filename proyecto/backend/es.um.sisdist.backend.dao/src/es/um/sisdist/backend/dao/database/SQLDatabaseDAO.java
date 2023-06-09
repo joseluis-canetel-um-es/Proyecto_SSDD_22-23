@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -198,6 +200,47 @@ public class SQLDatabaseDAO implements IDatabaseDAO {
 		} catch (SQLException e) {
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<DataBase> getDatabases(String userId) {
+		  ArrayList<DataBase> databases = new ArrayList<DataBase>();
+
+		    try {
+		        PreparedStatement stm = conn.get().prepareStatement("SELECT * FROM databases WHERE idUser = ?");
+		        stm.setString(1, userId);
+
+		        ResultSet result = stm.executeQuery();
+
+		        while (result.next()) {
+		            DataBase database = new DataBase(result.getString("name"));
+		            database.setId(result.getString("id"));
+		            database.setIdUser(result.getString("idUser"));
+
+		            String paresString = result.getString("pares");
+
+		            if (paresString != null && !paresString.isEmpty()) {
+		                // Convertir la cadena de pares a un mapa
+		                HashMap<String, String> pares = new HashMap<String, String>();
+		                String[] paresArray = paresString.split(",");
+
+		                for (String par : paresArray) {
+		                    String[] keyValue = par.split(":");
+		                    if (keyValue.length == 2) {
+		                        pares.put(keyValue[0], keyValue[1]);
+		                    }
+		                }
+
+		                database.setPares(pares);
+		            }
+
+		            databases.add(database);
+		        }
+
+		    } catch (SQLException e) {
+		    }
+
+		    return databases;
 	}
 
 }
