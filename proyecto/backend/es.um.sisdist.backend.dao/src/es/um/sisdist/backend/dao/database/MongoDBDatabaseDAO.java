@@ -54,9 +54,9 @@ public class MongoDBDatabaseDAO implements IDatabaseDAO {
 	}
 
 	@Override
-	public boolean deleteDatabase(String databaseId) {
+	public boolean deleteDatabase(String databaseName) {
 		try {
-			collection.get().deleteOne(eq("_id", databaseId));
+			collection.get().deleteOne(eq("name", databaseName));
 			return true;
 		} catch (Exception e) {
 			return false;

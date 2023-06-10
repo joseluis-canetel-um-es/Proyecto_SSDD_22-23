@@ -43,6 +43,9 @@ import java.util.logging.Logger;
  */
 public class GrpcServiceServer 
 {
+	
+// El servidor gRPC se usa para recibir y procesar solicitudes 
+// de clientes remotos que utilizan el protocolo gRPC.
   private static final Logger logger = Logger.getLogger(GrpcServiceServer.class.getName());
 
   /* The port on which the server should run */

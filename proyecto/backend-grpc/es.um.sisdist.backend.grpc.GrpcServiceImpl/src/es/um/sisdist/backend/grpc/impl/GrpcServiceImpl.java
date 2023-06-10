@@ -6,7 +6,10 @@ import es.um.sisdist.backend.grpc.GrpcServiceGrpc;
 import es.um.sisdist.backend.grpc.PingRequest;
 import es.um.sisdist.backend.grpc.PingResponse;
 import io.grpc.stub.StreamObserver;
-
+/**
+ * 
+ *  servicio responsable de manejar las solicitudes de los clientes
+ */
 class GrpcServiceImpl extends GrpcServiceGrpc.GrpcServiceImplBase 
 {
 	private Logger logger;
@@ -14,6 +17,7 @@ class GrpcServiceImpl extends GrpcServiceGrpc.GrpcServiceImplBase
     public GrpcServiceImpl(Logger logger) 
     {
 		super();
+		// se utiliza para registrar información en los registros
 		this.logger = logger;
 	}
 

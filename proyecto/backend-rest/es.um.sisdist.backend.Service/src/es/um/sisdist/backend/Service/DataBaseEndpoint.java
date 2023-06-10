@@ -2,6 +2,7 @@ package es.um.sisdist.backend.Service;
 
 import es.um.sisdist.backend.Service.impl.AppLogicImpl;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -25,11 +26,10 @@ public class DataBaseEndpoint {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createDatabase(@PathParam("id") String userId, String databaseName) {
-		// Utiliza el ID del usuario y el nombre de la base de datos para crearla
-		// También puedes obtener los datos iniciales de databaseRequest.getD()
+		// obtener los datos iniciales de databaseRequest.getD()
 
-		// Código para crear la base de datos
-
+		// crear la base de datos
+		impl.createDatabase(databaseName, userId);
 		// Construye la URL de la base de datos
 		String databaseUrl = "/u/" + userId + "/db/" + databaseName;
 
@@ -41,10 +41,26 @@ public class DataBaseEndpoint {
 	@GET
     @Path("/{name}")
     public Response getDatabase(@PathParam("id") String userId, @PathParam("name") String databaseName) {
-        // Lógica para consultar la base de datos del usuario con el ID y nombre especificados
-        
-        // Código para consultar la base de datos
+        impl.getDatabase(databaseName);
 
         return Response.ok().build();
     }
+	
+	
+	@DELETE
+	@Path("/{dbName}")
+	public Response deleteDatabase(@PathParam("id") String userId, @PathParam("dbName") String databaseName) {
+	    // Verificar si la base de datos existe y pertenece al usuario
+	    //if (impl.isDatabaseOwnedByUser(databaseName, userId)) {
+	        // Eliminar la base de datos
+	        boolean deleted = impl.deleteDatabase(userId, databaseName);
+
+	        if (deleted) {
+	            return Response.ok().build(); // Respuesta HTTP 200 OK si se eliminó correctamente
+	        } else {
+	            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); // Respuesta HTTP 500 Internal Server Error si hubo un error al eliminar
+	        }
+	    
+	}
+
 }

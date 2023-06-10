@@ -12,7 +12,7 @@ valores y lanzar procesamientos map-reduce *
  */
 public interface IDatabaseDAO {
 	 public boolean insertDatabase(String db, String idUser);
-	 public boolean deleteDatabase(String databaseId);
+	 public boolean deleteDatabase(String databaseName);
 	 public DataBase getDatabase(String databaseId);
 	 public void addClaveValor(String db, String clave, String valor);
 	 public void deleteClaveValor(String db, String clave);

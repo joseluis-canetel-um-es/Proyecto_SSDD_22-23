@@ -3,6 +3,7 @@
  */
 package es.um.sisdist.backend.Service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -104,6 +105,10 @@ public class AppLogicImpl
     	//return false;
     }
     
+    public boolean deleteDatabase(String idUser, String name) {
+    	return daodb.deleteDatabase(name);
+    }
+    
     
     // devuelve la database dado su id
     public Optional<DataBase> getDatabase(String db) {
@@ -112,17 +117,17 @@ public class AppLogicImpl
     }
     
     // dado un id de usuario retorna las bases de datos relacioandos
-    public List<DataBase> getDatabasesByUserId(String userId) {
+    public ArrayList<DataBase> getDatabasesByUserId(String userId) {
         try {
             //MongoCollection<DataBase> mongoCollection = collection.get(); // Obtener la colección de la base de datos
            // List<DataBase> result = mongoCollection.find(eq("idUser", userId)).into(new ArrayList<>());
-        	List<DataBase> result = daodb.getDatabases(userId);
+        	ArrayList<DataBase> result = daodb.getDatabases(userId);
             return result;
         } catch (Exception e) {
             // Manejar la excepción según sea necesario
         }
 
-        return Collections.emptyList();
+        return null;
     }
 
     public void insertKeyValue(String dbname, String key, String value) {

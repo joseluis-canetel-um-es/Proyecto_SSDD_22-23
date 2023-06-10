@@ -38,16 +38,17 @@ public class SQLDatabaseDAO implements IDatabaseDAO {
 	}
 
 	@Override
-	public boolean deleteDatabase(String id) {
+	public boolean deleteDatabase(String databaseName) {
 		PreparedStatement stm;
-		try {
-			stm = conn.get().prepareStatement("DELETE FROM databases WHERE id = ?");
-			stm.setString(1, id);
-			int rowsAffected = stm.executeUpdate();
-			return rowsAffected > 0;
-		} catch (SQLException e) {
-		}
-		return false;
+	    try {
+	        stm = conn.get().prepareStatement("DELETE FROM databases WHERE name = ?");
+	        stm.setString(1, databaseName);
+	        int rowsAffected = stm.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        // Manejar la excepción SQL según sea necesario
+	    }
+	    return false;
 	}
 
 	@Override
