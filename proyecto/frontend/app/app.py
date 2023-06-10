@@ -116,6 +116,30 @@ def register():
 # funcion para mostrar el numero de accesos
 
 
+# funcion para mostrar bases de datos
+@app.route('/u/<id>/db', methods=['GET', 'POST'])
+@login_required
+def userDatabases():
+    
+    url = 'http://localhost:8080/rest/u/'+current_user.id +'/db'
+
+    try:
+        databasesResponse = requests.get(url)
+    except:
+        error = 'No se pudo obtener el contenido'
+        return render_template('index.html', error)
+
+    if databasesResponse.status_code == 200:
+
+        databases = databasesResponse.json()
+        return render_template('user_databases.html', databases = databases)
+
+    else:
+
+        error = 'No se pudo obtener contenido de bases de datos'
+        return render_template('user_no_db.html', error = error)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
