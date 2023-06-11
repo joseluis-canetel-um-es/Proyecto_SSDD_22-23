@@ -11,7 +11,7 @@ import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
 public class SerializeTest {
-
+/**
 	public static void main(String[] args) {
 		try {
 			StringWriter writer = new StringWriter();
@@ -32,4 +32,5 @@ public class SerializeTest {
 			e.printStackTrace();
 		}
 	}
+	*/
 }

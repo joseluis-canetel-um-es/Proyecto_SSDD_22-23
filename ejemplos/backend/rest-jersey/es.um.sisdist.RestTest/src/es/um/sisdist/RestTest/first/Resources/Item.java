@@ -4,7 +4,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Item {
-
+/*
 	private String uri;
 	private ItemDetail item_detail;
 	
@@ -23,5 +23,5 @@ public class Item {
 	public ItemDetail getItem_detail() {
 		return item_detail;
 	}
-	
+*/	
 }

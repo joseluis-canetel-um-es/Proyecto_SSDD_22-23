@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.UriBuilder;
 
 public class TestClient
 {
+	/**
     public static void main(String[] args)
     {
         ClientConfig config = new ClientConfig();
@@ -39,5 +40,5 @@ public class TestClient
     {
         return UriBuilder.fromUri(
                 "http://localhost:8080/es.um.sisdist.RestTest").build();
-    }
+    }*/
 }

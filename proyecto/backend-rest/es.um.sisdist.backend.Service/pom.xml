@@ -124,10 +124,5 @@
 			<artifactId>GrpcService</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>es.um.sisdist.RestTest</groupId>
-			<artifactId>es.um.sisdist.RestTest</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>

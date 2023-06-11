@@ -19,6 +19,7 @@ import jakarta.ws.rs.core.Response;
 @Path("hello")
 public class Hello
 {
+	/**
     // This method is called if TEXT_PLAIN is request
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -92,6 +93,6 @@ public class Hello
     public void newItemJSON(Item i)
     {
         System.out.println("Recibido item: " + i.getUri());
-    }
+    }*/
 
 }

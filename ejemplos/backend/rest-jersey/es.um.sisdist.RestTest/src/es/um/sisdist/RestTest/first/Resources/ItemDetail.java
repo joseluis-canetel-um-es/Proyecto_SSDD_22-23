@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ItemDetail {
+	/*
 	private int id;
 
 	public void setId(int id) {
@@ -13,4 +14,5 @@ public class ItemDetail {
 	public int getId() {
 		return id;
 	}
+	*/
 }
