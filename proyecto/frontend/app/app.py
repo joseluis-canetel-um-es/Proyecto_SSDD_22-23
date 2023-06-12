@@ -47,7 +47,7 @@ def login():
             # esto solo pasa si las credenciales son correctas        
             response = requests.post('http://backend-rest:8080/rest/checkLogin', json=credenciales)
             if response.status_code == 200: 
-                user = User(int(response.json()['id']['string']), response.json()['name']['string'], form.email.data.encode('utf-8'), form.password.data.encode('utf-8'),response.json()['token']['string'], int(response.json()['visits']['string']), int(response.json()['videos']['string']))
+                user = User(int(response.json()['id']), response.json()['name'], form.email.data.encode('utf-8'), form.password.data.encode('utf-8'),response.json()['token'], int(response.json()['visits']))
                 users.append(user)
                 login_user(user, remember=form.remember_me.data)
                 return redirect(url_for('profile', username=user.id))
