@@ -8,7 +8,6 @@ import es.um.sisdist.backend.dao.user.IUserDAO;
 
 
 /**
- * @author dsevilla
  *
  */
 public interface IDAOFactory
